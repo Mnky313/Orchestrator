@@ -12,8 +12,8 @@ WEBHOOK_URL=*discord webhook url to log to*
 
 Folder Structure under FILESYSTEM_PATH:
 
-ToBeApproved - location where media is placed to be checked, also the location where 'done' file is checked for before running to prevent attempting to check incomplete copies
-Rejected - location of log file & where rejected files are placed
+ToBeApproved - location where media is placed to be checked, also the location where 'done' file is checked for before running to prevent attempting to check incomplete copies\n
+Rejected - location of log file & where rejected files are placed\n
 The Actual Playlist - location of where media files are stored/organized (album artist/album/tracknumber. title.flac)
 
 Example webhook message:
