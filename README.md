@@ -18,6 +18,7 @@ FILESYSTEM_PATH/
   The Actual Playlist - location of where media files are stored/organized (album artist/album/tracknumber. title.flac)
 
 Example webhook message:
+
 <img width="436" height="253" alt="image" src="https://github.com/user-attachments/assets/a9ec9776-8eed-45c2-b774-25ed0c23b4d3" />
 
 Example logfile message:
