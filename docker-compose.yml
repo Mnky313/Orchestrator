@@ -1,0 +1,13 @@
+services:
+  orchestrator:
+    container_name: Orchestrator
+    build: https://github.com/Mnky313/Orchestrator.git
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - NAS:/mnt/NAS
+    network_mode: host
+
+volumes:
+  NAS:
+    external: true
