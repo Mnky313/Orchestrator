@@ -8,14 +8,15 @@ import datetime
 from discord_webhook import DiscordWebhook, DiscordEmbed
 
 NEEDED_TAGS = ["title","artist","album","albumartist","genre","totaltracks","tracknumber","year"]
-WARN_TITLE_STRINGS = [" remaster "," remastered ", " feat ", " featuring ", "feat. "]
-WARN_ARTIST_STRINGS = [" x "," with ", " feat ", " & ", " featuring ", " feat. "," + ", ","]
+WARN_TITLE_STRINGS = [" remaster "," remastered ", " feat ", " featuring ", "feat. ", " ft ", " ft. "]
+WARN_ARTIST_STRINGS = [" x "," with ", " feat ", " & ", " featuring ", " feat. "," + ", ",", " ft ", " ft. ", " vs "," vs. "]
 WARN_ALBUMARTIST_STRINGS = WARN_ARTIST_STRINGS + [";"]
 WARN_ALBUM_STRINGS = [" greatest ", " hits ", " best of "]
 ACCEPTED_GENRES = ["Rock", "Pop Rock", "Arena Rock", "Glam Metal", "Metal", "Pop", "Soundtrack", "Movie Soundtrack", "Synth", "Synth Pop", "Dance", "Vocaloid", "Electronic", "Japan", "House", "Ballad", "Adult Alternative", "Adult Contemporary", "Piano", "R&B", "Dance Pop", "Synth Funk", "Hip-Hop", "Funk", "Swing", "Electro Swing", "Hardcore", "Instrumental", "New Wave", "Synth Rock", "J-Pop", "Anime", "J-Rock", "Soul", "Rap", "West Coast Rap", "Techno", "Experimental", "Future Bass", "Electro House", "Soft Rock", "Singer Songwriter", "Remix", "Video Game Music", "Alternative Pop", "Trap", "Trip-Hop", "South Korea", "Nerdcore", "K-Pop", "Reggae", "Dubstep", "Classical", "Orchestral", "Alternative Rock", "Alternative", "Nightcore", "Cover", "Storytelling", "Country", "Country Rock", "Hardcore Rap", "Gangsta Rap", "Political", "Protest Songs", "Punk", "Folk", "Indie Rock", "Album Oriented Rock", "Hard Rock", "Psychedelic Rock", "Blues Rock", "EDM", "Electro Pop", "Glam Rock", "Complextro", "Indie", "J-Metal", "Futurecore", "Dark Pop", "Ambient", "Progressive House", "Diss", "Heavy Metal", "Happy Hardcore", "Thrash Metal", "Future House", "Blues", "Disco", "Jazz", "Drum & Bass", "Bass", "Psychedelic Soul", "Progressive Soul", "Progressive Rock", "Memes", "Rock & Roll", "Alternative Hip-Hop", "Conscious Hip-Hop", "Glitch-Hop", "Alternative Metal", "Chill", "Classic Rock", "Glitch", "Psychedelic Pop", "Latin", "Drumstep", "Indie Folk", "Indie Pop", "Progressive Metal", "Hyper Pop", "Future Pop", "Breakcore", "Experimental Rock", "Brostep", "Traditional Pop", "Comedy", "Parody", "Hybrid Trap", "Vocal", "Russia", "Indie Dance", "Smooth Jazz", "Chiptune", "Trance", "Speedcore", "Horrorcore", "Korea", "Contemporary R&B", "Bass House", "Speed Metal", "West Coast Hip-Hop", "Hardcore Hip-Hop", "Southern Rock", "Power Metal", "Country Pop", "Psychedelic", "Teen Pop", "East Coast Rap", "Electornic", "Symphonic Metal", "Symphonic Rock", "Melodic", "Gangsta Hip-Hop", "Experimental Hip-Hop", "Hardstyle", "Gospel", "Comedy Hip-Hop", "Dance Rock", "Sea Shanty", "Freestyle", "Folk Rock", "Future Trap", "Alternative R&B", "Alternative Dance", "Eurobeat", "India", "Alternative Rap", "Southern Hip-Hop", "Alternative Country", "Micropop", "Future Funk", "Acoustic", "Propaganda", "Progressive Pop", "Death Metal", "Southern Rap", "K-Indie", "K-Rock", "Progressive Rap", "Conscious Rap", "East Coast Hip-Hop", "Traditional", "Western", "Opera", "Progressive Hip-Hop", "Psytrance"]
 FILESYSTEM_INVALID_CHARS = ["\\","/",":","*","?","\"","<",">","|"]
 
 FILESYSTEM_PATH = os.getenv("FILESYSTEM_PATH")
+LIBRARY_PATH = os.getenv("LIBRARY_PATH")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 
 def make_safe(string):
@@ -199,16 +200,16 @@ def load_audio_file(filepath):
         return approval_status
 
     if get_approval_status():
-        if not os.path.isdir(FILESYSTEM_PATH+"/The Actual Playlist/"+albumartistInfo["albumartist_safe"]):
-            os.mkdir(FILESYSTEM_PATH+"/The Actual Playlist/"+albumartistInfo["albumartist_safe"])
-        if not os.path.isdir(FILESYSTEM_PATH+"/The Actual Playlist/"+albumartistInfo["albumartist_safe"]+"/"+albumInfo["album_safe"]):
-            os.mkdir(FILESYSTEM_PATH+"/The Actual Playlist/"+albumartistInfo["albumartist_safe"]+"/"+albumInfo["album_safe"])
+        if not os.path.isdir(LIBRARY_PATH+"/"+albumartistInfo["albumartist_safe"]):
+            os.mkdir(LIBRARY_PATH+"/"+albumartistInfo["albumartist_safe"])
+        if not os.path.isdir(LIBRARY_PATH+"/"+albumartistInfo["albumartist_safe"]+"/"+albumInfo["album_safe"]):
+            os.mkdir(LIBRARY_PATH+"/"+albumartistInfo["albumartist_safe"]+"/"+albumInfo["album_safe"])
         
         if int(tracknumberInfo["tracknumber"]) < 10:
             fileTrackNum = "0"+tracknumberInfo["tracknumber"]
         else:
             fileTrackNum = tracknumberInfo["tracknumber"]
-        audioFile.save(FILESYSTEM_PATH+"/The Actual Playlist/"+albumartistInfo["albumartist_safe"]+"/"+albumInfo["album_safe"]+"/"+fileTrackNum+". "+titleInfo["title_safe"]+"."+filepath.split(".")[-1])
+        audioFile.save(LIBRARY_PATH+"/"+albumartistInfo["albumartist_safe"]+"/"+albumInfo["album_safe"]+"/"+fileTrackNum+". "+titleInfo["title_safe"]+"."+filepath.split(".")[-1])
         for status in [titleInfo["status"], artistInfo["status"], albumInfo["status"], albumartistInfo["status"], genreInfo["status"], tracknumberInfo["status"], yearInfo["status"], artworkInfo["status"]]:
             if status == "🟡":
                 embedColor = "FFFF00"

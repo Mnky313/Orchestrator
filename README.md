@@ -7,6 +7,7 @@ Please provide a .env with the following values:
 
 ```
 FILESYSTEM_PATH=*path to root of media location (structure described below)*
+LIBRARY_PATH=*path to output library*
 WEBHOOK_URL=*discord webhook url to log to*
 ```
 
